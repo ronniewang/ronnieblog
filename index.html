@@ -65,9 +65,13 @@
     <article id="post-redis-best-practices" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/ronnieblog/2019/05/12/redis-best-practices/" class="article-date">
-  <time datetime="2019-05-11T23:48:32.000Z" itemprop="datePublished">2019-05-12</time>
+  <time datetime="2019-05-11T23:48:00.000Z" itemprop="datePublished">2019-05-12</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/ronnieblog/categories/Techology/">Techology</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -76,7 +80,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/ronnieblog/2019/05/12/redis-best-practices/">redis-best-practices</a>
+      <a class="article-title" href="/ronnieblog/2019/05/12/redis-best-practices/">Redis 的一些最佳实践</a>
     </h1>
   
 
@@ -84,7 +88,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>test redis</p>
+        <ol>
+<li><p>Reids单实例大小不要超过 20G，超过 20G 的建议使用 Redis Cluster</p>
+</li>
+<li><p>禁止执行危险操作，对于一些比较危险的命令，比如 shutdown、flushdb、flushall、keys等，要做 rename，不要让客户端调用，如果需要跑这些命令，需要联系运维人员进行操作</p>
+</li>
+</ol>
 
       
     </div>
@@ -92,88 +101,8 @@
       <a data-url="http://ronniewang.github.io/2019/05/12/redis-best-practices/" data-id="cjvk73fsj000179wkwdusjhfh" class="article-share-link">Share</a>
       
       
-    </footer>
-  </div>
-  
-</article>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ronnieblog/tags/Redis/">Redis</a></li></ul>
 
-
-  
-    <article id="post-index" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ronnieblog/2019/04/18/index/" class="article-date">
-  <time datetime="2019-04-18T11:54:37.000Z" itemprop="datePublished">2019-04-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ronnieblog/2019/04/18/index/">index</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>index</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/04/18/index/" data-id="cjvk73fsc000079wkkfof2xh8" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ronnieblog/2019/04/18/hello-world/" class="article-date">
-  <time datetime="2019-04-18T11:31:02.175Z" itemprop="datePublished">2019-04-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ronnieblog/2019/04/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/04/18/hello-world/" data-id="cjvk73fsp000379wkhrcrdej2" class="article-share-link">Share</a>
-      
-      
     </footer>
   </div>
   
@@ -237,12 +166,33 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ronnieblog/categories/Techology/">Techology</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/ronnieblog/tags/Redis/">Redis</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/ronnieblog/tags/Redis/" style="font-size: 10px;">Redis</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -261,15 +211,7 @@
       <ul>
         
           <li>
-            <a href="/ronnieblog/2019/05/12/redis-best-practices/">redis-best-practices</a>
-          </li>
-        
-          <li>
-            <a href="/ronnieblog/2019/04/18/index/">index</a>
-          </li>
-        
-          <li>
-            <a href="/ronnieblog/2019/04/18/hello-world/">Hello World</a>
+            <a href="/ronnieblog/2019/05/12/redis-best-practices/">Redis 的一些最佳实践</a>
           </li>
         
           <li>
