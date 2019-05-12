@@ -5,15 +5,20 @@
   
 
   
-  <title>Hexo</title>
+  <title>Spring Data JPA教程：审计（一）.md | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://ronniewang.github.io/index.html">
+  <meta name="description" content="提到审计，首先从脑海中蹦出的就是审计日志，记录了实体版本的修改信息。但是实现审计日志是个既耗时又复杂的任务，幸运的是，大部分时候我们都不需要 然而，还是有些经常碰到的问题：  实体什么时候被创建和修改？ 谁创建和修改了这个实体？  Spring Data JPA的审计功能可以帮助我们解决这两个问题，下面我们介绍一下怎样通过Spring Data JPA提供的审计功能记录实体的创建和修改时间 一开始">
+<meta name="keywords" content="Spring Data">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Data JPA教程：审计（一）.md">
+<meta property="og:url" content="http://ronniewang.github.io/2016/05/12/spring-data-jpa-aduiting/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="提到审计，首先从脑海中蹦出的就是审计日志，记录了实体版本的修改信息。但是实现审计日志是个既耗时又复杂的任务，幸运的是，大部分时候我们都不需要 然而，还是有些经常碰到的问题：  实体什么时候被创建和修改？ 谁创建和修改了这个实体？  Spring Data JPA的审计功能可以帮助我们解决这两个问题，下面我们介绍一下怎样通过Spring Data JPA提供的审计功能记录实体的创建和修改时间 一开始">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-12T02:50:41.771Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Spring Data JPA教程：审计（一）.md">
+<meta name="twitter:description" content="提到审计，首先从脑海中蹦出的就是审计日志，记录了实体版本的修改信息。但是实现审计日志是个既耗时又复杂的任务，幸运的是，大部分时候我们都不需要 然而，还是有些经常碰到的问题：  实体什么时候被创建和修改？ 谁创建和修改了这个实体？  Spring Data JPA的审计功能可以帮助我们解决这两个问题，下面我们介绍一下怎样通过Spring Data JPA提供的审计功能记录实体的创建和修改时间 一开始">
   
     <link rel="alternate" href="/ronnieblog/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -60,106 +65,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-redis-best-practices" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ronnieblog/2019/05/12/redis-best-practices/" class="article-date">
-  <time datetime="2019-05-11T23:48:00.000Z" itemprop="datePublished">2019-05-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/ronnieblog/categories/Techology/">Techology</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ronnieblog/2019/05/12/redis-best-practices/">Redis 的一些最佳实践</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li><p>Reids单实例大小不要超过 20G，超过 20G 的建议使用 Redis Cluster</p>
-</li>
-<li><p>禁止执行危险操作，对于一些比较危险的命令，比如 shutdown、flushdb、flushall、keys等，要做 rename，不要让客户端调用，如果需要跑这些命令，需要联系运维人员进行操作</p>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/05/12/redis-best-practices/" data-id="cjvk73fsj000179wkwdusjhfh" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ronnieblog/tags/Redis/">Redis</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-why-must-i-come-to-the-company" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ronnieblog/2019/04/12/why-must-i-come-to-the-company/" class="article-date">
-  <time datetime="2019-04-12T00:03:21.000Z" itemprop="datePublished">2019-04-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ronnieblog/2019/04/12/why-must-i-come-to-the-company/">为什么一定要来公司工作呢？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Gitlab 是一家全员远程工作的公司，37 Signals 也是一家全员远程的公司，允许远程办公的不止高科技公司，还有许多其他的公司允许远程办公，比如宝洁、惠普等，当然还有很多我不知道的公司，这些公司都产出了优秀的产品，并且在商业上也很成功，这充分证明了远程工作是没有问题的</p>
-<p>而且，当今社会，科技如此发达，大家见不见面完全不影响沟通交流</p>
-<p>相反，在公司办公还有很多弊端</p>
-<p>第一、通勤时间是一种巨大的浪费，对于广大的一线城市的人来说，每天大概都要花 1、2 个小时的时间在上班的路上，对于挤地铁的人，每天更是心灵和肉体的双重打击，每天坐两次地铁就已经浪费了大部分精力了，如果这些精力和时间用来工作，将是多么大的产出啊</p>
-<p>第二、公司的办公室无法提供脑力劳动者所需的环境，现在几乎所有的公司都是格子间，百十人挤在一层楼里，人与人之间毫无距离，一个人说个话、放个屁都能打扰到另一个人，对于脑力工作者来说，安静舒适的工作环境再重要不过了，但是在办公室是很难得到安静的，如果遇到傻逼领导，时不时过来打扰你、监视你一下，那真是噩梦了</p>
-<p>有人可能会说了，不来公司工作怎么能保证你在工作呢？</p>
-<p>就以程序员来说吧，程序员的工作成果是完全可以看得见的，功能是否完成了，上线有没有 bug，这都是大家有目共睹的，重要的是写出来的代码解决了什么问题，而不是在公司的工位上坐了多久，如果问题解决了，那就是完成了工作，如果在公司天天加班耗时间，但是工作产出并没有增多，那又有什么用呢？</p>
-<p>对于优秀的员工来说，给予员工的自由度越大，信任他们有能力完成工作，他们对工作的热情就更高，如果每天监视员工，把员工当 3 岁的孩子，员工会感觉自己受到了冒犯，反而降低了工作的积极性，得不偿失</p>
-<p>还有人说，面对面工作交流沟通效率高，有问题可以更快的解决</p>
-<p>这我也是不能同意的</p>
-<p>现在网络如此发达，开个视频会议跟面对面聊是没有什么区别的，而且，大家最好是通过文档进行交流，这样大家在写作的过程中都能深入的思考，而不是想一出是一出，随便过来打断别人的工作，文档沉淀下来的东西也是双方的一份契约，大家讨论定稿之后，就按照契约进行工作，还能防止相互推诿扯皮</p>
-<p>当前看来，中国也有一些小公司在尝试远程办公，也做出了一些优秀的产品，例如开发团队协作工具 Tower 的公司，他们就是远程办公</p>
-<p>虽然我现在还坐在格子间里，但实现远程办公也是我很强烈的一个愿望，我愿为此付出努力，早日脱离格子间</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/04/12/why-must-i-come-to-the-company/" data-id="cjvk73fsn000279wkzzpg15mx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-spring-data-jpa-aduiting" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-spring-data-jpa-aduiting" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/ronnieblog/2016/05/12/spring-data-jpa-aduiting/" class="article-date">
   <time datetime="2016-05-12T02:47:00.000Z" itemprop="datePublished">2016-05-12</time>
@@ -176,8 +82,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/ronnieblog/2016/05/12/spring-data-jpa-aduiting/">Spring Data JPA教程：审计（一）.md</a>
+    <h1 class="article-title" itemprop="name">
+      Spring Data JPA教程：审计（一）.md
     </h1>
   
 
@@ -264,11 +170,23 @@
     </footer>
   </div>
   
-</article>
-
+    
+<nav id="article-nav">
+  
+    <a href="/ronnieblog/2019/04/12/why-must-i-come-to-the-company/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          为什么一定要来公司工作呢？
+        
+      </div>
+    </a>
+  
+  
+</nav>
 
   
-
+</article>
 
 </section>
         
