@@ -62,6 +62,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-http-connection-pool-for-rest-temlate" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/ronnieblog/2019/05/16/http-connection-pool-for-rest-temlate/" class="article-date">
+  <time datetime="2019-05-16T03:37:55.000Z" itemprop="datePublished">2019-05-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ronnieblog/2019/05/16/http-connection-pool-for-rest-temlate/">为 RestTemplate 配置连接池</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Google 搜索 RestTemplate pool，出现一个 stackoverflow 的问题， <a href="https://stackoverflow.com/questions/44188847/springs-resttemplate-default-connection-pool" target="_blank" rel="noopener">https://stackoverflow.com/questions/44188847/springs-resttemplate-default-connection-pool</a>，点进去看一下，第一个答案是这么写的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">I believe RestTemplate doesn’t use a connection pool to send requests, it uses a SimpleClientHttpRequestFactory that wraps a standard JDK’s HttpURLConnection opening and closing the connection.</span><br><span class="line"></span><br><span class="line">Indeed you can configure RestTemplate to use a pooled implementation such as HttpComponentsClientHttpRequestFactory but most-likely you might also need to configure some settings to prevent requests from timing out.</span><br><span class="line"></span><br><span class="line">I have blogged about this issue at Troubleshooting Spring&apos;s RestTemplate Requests Timeout</span><br></pre></td></tr></table></figure>
+<p>上面说到 RestTemplate 默认是使用 SimpleClientHttpRequestFactory 进行访问，只是对 HttpURLConnection 进行了封装，每次发请求都要建立连接，如果使用连接池需要用 HttpComponentsClientHttpRequestFactory 构造 RestTemplate 对象，但是需要一些其他的配置</p>
+<p>下面的链接描述了如何配置连接池，并做了测试，这个连接就上上面答案的作者提到的他自己的那篇文章</p>
+<p><a href="https://tech.asimio.net/2016/12/27/Troubleshooting-Spring-RestTemplate-Requests-Timeout.html" target="_blank" rel="noopener">https://tech.asimio.net/2016/12/27/Troubleshooting-Spring-RestTemplate-Requests-Timeout.html</a></p>
+<p>我在这里描述一下关键内容</p>
+<p>先加入 Maven 依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.httpcomponents<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>httpclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.5.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>配置一个 RestTemplate Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestTemplateConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PoolingHttpClientConnectionManager <span class="title">poolingHttpClientConnectionManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        PoolingHttpClientConnectionManager result = <span class="keyword">new</span> PoolingHttpClientConnectionManager();</span><br><span class="line">        result.setMaxTotal(<span class="number">20</span>);</span><br><span class="line">        result.setDefaultMaxPerRoute(<span class="number">30</span>);<span class="comment">// 这个很重要，如果不设置最多只能同时使用 4 个连接</span></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestConfig <span class="title">requestConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> RequestConfig.custom()</span><br><span class="line">                .setConnectionRequestTimeout(<span class="number">2000</span>)</span><br><span class="line">                .setConnectTimeout(<span class="number">2000</span>)</span><br><span class="line">                .setSocketTimeout(<span class="number">2000</span>)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CloseableHttpClient <span class="title">httpClient</span><span class="params">(PoolingHttpClientConnectionManager poolingHttpClientConnectionManager, RequestConfig requestConfig)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> HttpClientBuilder</span><br><span class="line">                .create()</span><br><span class="line">                .setConnectionManager(poolingHttpClientConnectionManager)</span><br><span class="line">                .setDefaultRequestConfig(requestConfig)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">restTemplate</span><span class="params">(HttpClient httpClient)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        HttpComponentsClientHttpRequestFactory requestFactory = <span class="keyword">new</span> HttpComponentsClientHttpRequestFactory();</span><br><span class="line">        requestFactory.setHttpClient(httpClient);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate(requestFactory);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上面有一条注释，关于这个注释，原文是这么说的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">When defining poolingHttpClientConnectionManager bean in Create Demo Service 2’s entry point, neither defaultMaxPerRoute nor maxPerRoute were set and the implementation of PoolingHttpClientConnectionManager uses a maximum of 4 connections per host route if not specified</span><br></pre></td></tr></table></figure>
+<p>defaultMaxPerRoute 和 maxPerRoute 这个值如果都没有设置的话，PoolingHttpClientConnectionManager 对每个 host 最多只使用 4 个连接，所以两个参数也需要调大，defaultMaxPerRoute 是所有的 host 共享的值，maxPerRoute 可以为每个 host 配置来覆盖 defaultMaxPerRoute 的值</p>
+<p>这样就 OK 了</p>
+<p>Done!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://ronniewang.github.io/2019/05/16/http-connection-pool-for-rest-temlate/" data-id="cjvq3u8oq000093wkviy17mcb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ronnieblog/tags/RestTemplate/">RestTemplate</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-process-data-with-hive" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/ronnieblog/2019/05/15/process-data-with-hive/" class="article-date">
@@ -98,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/05/15/process-data-with-hive/" data-id="cjvokljhh00062iwkqhz0hg1b" class="article-share-link">Share</a>
+      <a data-url="http://ronniewang.github.io/2019/05/15/process-data-with-hive/" data-id="cjvq3u8pe000993wkof10640m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ronnieblog/tags/Hive/">Hive</a></li></ul>
@@ -146,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/05/12/redis-best-practices/" data-id="cjvokljh000012iwkxar71t5q" class="article-share-link">Share</a>
+      <a data-url="http://ronniewang.github.io/2019/05/12/redis-best-practices/" data-id="cjvq3u8p0000193wkhleypfvw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ronnieblog/tags/Redis/">Redis</a></li></ul>
@@ -197,7 +249,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/04/12/why-must-i-come-to-the-company/" data-id="cjvokljgt00002iwk193e71sa" class="article-share-link">Share</a>
+      <a data-url="http://ronniewang.github.io/2019/04/12/why-must-i-come-to-the-company/" data-id="cjvq3u8p5000393wkng53n4d5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -368,7 +420,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2016/05/12/spring-data-jpa-aduiting/" data-id="cjvoklji700092iwkgccnlpul" class="article-share-link">Share</a>
+      <a data-url="http://ronniewang.github.io/2016/05/12/spring-data-jpa-aduiting/" data-id="cjvq3u8pv000c93wkyad8b8gi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ronnieblog/tags/Spring-Data/">Spring Data</a></li></ul>
@@ -400,7 +452,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/ronnieblog/tags/Hive/">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ronnieblog/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ronnieblog/tags/Spring-Data/">Spring Data</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/ronnieblog/tags/Hive/">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ronnieblog/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ronnieblog/tags/RestTemplate/">RestTemplate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ronnieblog/tags/Spring-Data/">Spring Data</a></li></ul>
     </div>
   </div>
 
@@ -410,7 +462,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/ronnieblog/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/ronnieblog/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/ronnieblog/tags/Spring-Data/" style="font-size: 10px;">Spring Data</a>
+      <a href="/ronnieblog/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/ronnieblog/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/ronnieblog/tags/RestTemplate/" style="font-size: 10px;">RestTemplate</a> <a href="/ronnieblog/tags/Spring-Data/" style="font-size: 10px;">Spring Data</a>
     </div>
   </div>
 
@@ -430,6 +482,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/ronnieblog/2019/05/16/http-connection-pool-for-rest-temlate/">为 RestTemplate 配置连接池</a>
+          </li>
         
           <li>
             <a href="/ronnieblog/2019/05/15/process-data-with-hive/">记一次 HIVE 处理数据的过程</a>
