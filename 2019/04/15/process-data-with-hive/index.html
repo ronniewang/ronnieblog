@@ -7,18 +7,18 @@
   
   <title>记一次 HIVE 处理数据的过程 | RW</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.建立新表使每条记录有 puid 和该 puid 近 5 个月机器使用数据 1234567891011121314151617181920212223create table temp_flex_change_device_info_2019_02 (    t1_puid string,    t1_mdate string,    t1_fre int,    t1_ua string,">
+  <meta name="description" content="第一次用 HIVE，记录一下">
 <meta name="keywords" content="Hive">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记一次 HIVE 处理数据的过程">
-<meta property="og:url" content="http://ronniewang.github.io/2019/05/15/process-data-with-hive/index.html">
+<meta property="og:url" content="http://ronniewang.github.io/2019/04/15/process-data-with-hive/index.html">
 <meta property="og:site_name" content="RW">
-<meta property="og:description" content="1.建立新表使每条记录有 puid 和该 puid 近 5 个月机器使用数据 1234567891011121314151617181920212223create table temp_flex_change_device_info_2019_02 (    t1_puid string,    t1_mdate string,    t1_fre int,    t1_ua string,">
+<meta property="og:description" content="第一次用 HIVE，记录一下">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-17T09:47:22.145Z">
+<meta property="og:updated_time" content="2019-06-15T02:06:56.004Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次 HIVE 处理数据的过程">
-<meta name="twitter:description" content="1.建立新表使每条记录有 puid 和该 puid 近 5 个月机器使用数据 1234567891011121314151617181920212223create table temp_flex_change_device_info_2019_02 (    t1_puid string,    t1_mdate string,    t1_fre int,    t1_ua string,">
+<meta name="twitter:description" content="第一次用 HIVE，记录一下">
   
     <link rel="alternate" href="/ronnieblog/atom.xml" title="RW" type="application/atom+xml">
   
@@ -67,8 +67,8 @@
       <div class="outer">
         <section id="main"><article id="post-process-data-with-hive" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/ronnieblog/2019/05/15/process-data-with-hive/" class="article-date">
-  <time datetime="2019-05-15T01:51:48.000Z" itemprop="datePublished">2019-05-15</time>
+    <a href="/ronnieblog/2019/04/15/process-data-with-hive/" class="article-date">
+  <time datetime="2019-04-15T01:51:48.000Z" itemprop="datePublished">2019-04-15</time>
 </a>
     
   </div>
@@ -87,7 +87,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-建立新表"><a href="#1-建立新表" class="headerlink" title="1.建立新表"></a>1.建立新表</h3><p>使每条记录有 puid 和该 puid 近 5 个月机器使用数据</p>
+        <p>第一次用 HIVE，记录一下</p>
+<a id="more"></a>
+<h3 id="1-建立新表"><a href="#1-建立新表" class="headerlink" title="1.建立新表"></a>1.建立新表</h3><p>使每条记录有 puid 和该 puid 近 5 个月机器使用数据</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> temp_flex_change_device_info_2019_02 (</span><br><span class="line">    t1_puid <span class="keyword">string</span>,</span><br><span class="line">    t1_mdate <span class="keyword">string</span>,</span><br><span class="line">    t1_fre <span class="built_in">int</span>,</span><br><span class="line">    t1_ua <span class="keyword">string</span>,</span><br><span class="line">    t1_device_num <span class="built_in">int</span>,</span><br><span class="line">    t2_mdate <span class="keyword">string</span>,</span><br><span class="line">    t2_fre <span class="built_in">int</span>,</span><br><span class="line">    t2_ua <span class="keyword">string</span>,</span><br><span class="line">    t2_device_num <span class="built_in">int</span>,</span><br><span class="line">    t3_mdate <span class="keyword">string</span>,</span><br><span class="line">    t3_fre <span class="built_in">int</span>,</span><br><span class="line">    t3_ua <span class="keyword">string</span>,</span><br><span class="line">    t3_device_num <span class="built_in">int</span>,</span><br><span class="line">    t4_mdate <span class="keyword">string</span>,</span><br><span class="line">    t4_fre <span class="built_in">int</span>,</span><br><span class="line">    t4_ua <span class="keyword">string</span>,</span><br><span class="line">    t4_device_num <span class="built_in">int</span>,</span><br><span class="line">    t5_mdate <span class="keyword">string</span>,</span><br><span class="line">    t5_fre <span class="built_in">int</span>,</span><br><span class="line">    t5_ua <span class="keyword">string</span>,</span><br><span class="line">    t5_device_num <span class="built_in">int</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <h3 id="2-将-5-个月的数据进行连接"><a href="#2-将-5-个月的数据进行连接" class="headerlink" title="2.将 5 个月的数据进行连接"></a>2.将 5 个月的数据进行连接</h3><p>将 5 个月的数据按 puid 进行连接，使每条数据都有全部 5 个月的数据，插入上面新建的表中</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> xx.temp_flex_change_device_info_2019_02</span><br><span class="line"><span class="keyword">select</span> t1_puid,</span><br><span class="line">       t1_mdate,</span><br><span class="line">       t1_fre,</span><br><span class="line">       t1_ua,</span><br><span class="line">       t1_device_num,</span><br><span class="line">       t2_mdate,</span><br><span class="line">       t2_fre,</span><br><span class="line">       t2_ua,</span><br><span class="line">       t2_device_num,</span><br><span class="line">       t3_mdate,</span><br><span class="line">       t3_fre,</span><br><span class="line">       t3_ua,</span><br><span class="line">       t3_device_num,</span><br><span class="line">       t4_mdate,</span><br><span class="line">       t4_fre,</span><br><span class="line">       t4_ua,</span><br><span class="line">       t4_device_num,</span><br><span class="line">       t5_mdate,</span><br><span class="line">       t5_fre,</span><br><span class="line">       t5_ua,</span><br><span class="line">       t5_device_num</span><br><span class="line"><span class="keyword">from</span> (<span class="keyword">select</span> puid <span class="keyword">as</span> t1_puid, mdate <span class="keyword">as</span> t1_mdate, all_fre <span class="keyword">as</span> t1_fre, ua_info <span class="keyword">as</span> t1_ua, device_num <span class="keyword">as</span> t1_device_num</span><br><span class="line">      <span class="keyword">from</span> xx.temp_mba_phone_user</span><br><span class="line">      <span class="keyword">where</span> <span class="keyword">month</span> = <span class="string">'2019-04-01'</span></span><br><span class="line">        <span class="keyword">and</span> all_fre &gt;= <span class="number">5</span></span><br><span class="line">        <span class="keyword">and</span> device_num &lt;= <span class="number">4</span>) <span class="keyword">as</span> t1</span><br><span class="line">         <span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> puid       <span class="keyword">as</span> t2_puid,</span><br><span class="line">                           mdate      <span class="keyword">as</span> t2_mdate,</span><br><span class="line">                           all_fre    <span class="keyword">as</span> t2_fre,</span><br><span class="line">                           ua_info    <span class="keyword">as</span> t2_ua,</span><br><span class="line">                           device_num <span class="keyword">as</span> t2_device_num</span><br><span class="line">                    <span class="keyword">from</span> xx.temp_mba_phone_user</span><br><span class="line">                    <span class="keyword">where</span> <span class="keyword">month</span> = <span class="string">'2019-03-01'</span></span><br><span class="line">                      <span class="keyword">and</span> all_fre &gt;= <span class="number">5</span></span><br><span class="line">                      <span class="keyword">and</span> device_num &lt;= <span class="number">4</span>) <span class="keyword">as</span> t2 <span class="keyword">on</span> t1.t1_puid = t2.t2_puid</span><br><span class="line">         <span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> puid       <span class="keyword">as</span> t3_puid,</span><br><span class="line">                           mdate      <span class="keyword">as</span> t3_mdate,</span><br><span class="line">                           all_fre    <span class="keyword">as</span> t3_fre,</span><br><span class="line">                           ua_info    <span class="keyword">as</span> t3_ua,</span><br><span class="line">                           device_num <span class="keyword">as</span> t3_device_num</span><br><span class="line">                    <span class="keyword">from</span> xx.temp_mba_phone_user</span><br><span class="line">                    <span class="keyword">where</span> <span class="keyword">month</span> = <span class="string">'2019-02-01'</span></span><br><span class="line">                      <span class="keyword">and</span> all_fre &gt;= <span class="number">5</span></span><br><span class="line">                      <span class="keyword">and</span> device_num &lt;= <span class="number">4</span>) <span class="keyword">as</span> t3 <span class="keyword">on</span> t2.t2_puid = t3.t3_puid</span><br><span class="line">         <span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> puid       <span class="keyword">as</span> t4_puid,</span><br><span class="line">                           mdate      <span class="keyword">as</span> t4_mdate,</span><br><span class="line">                           all_fre    <span class="keyword">as</span> t4_fre,</span><br><span class="line">                           ua_info    <span class="keyword">as</span> t4_ua,</span><br><span class="line">                           device_num <span class="keyword">as</span> t4_device_num</span><br><span class="line">                    <span class="keyword">from</span> xx.temp_mba_phone_user</span><br><span class="line">                    <span class="keyword">where</span> <span class="keyword">month</span> = <span class="string">'2019-01-01'</span></span><br><span class="line">                      <span class="keyword">and</span> all_fre &gt;= <span class="number">5</span></span><br><span class="line">                      <span class="keyword">and</span> device_num &lt;= <span class="number">4</span>) <span class="keyword">as</span> t4 <span class="keyword">on</span> t3.t3_puid = t4.t4_puid</span><br><span class="line">         <span class="keyword">left</span> <span class="keyword">join</span> (<span class="keyword">select</span> puid       <span class="keyword">as</span> t5_puid,</span><br><span class="line">                           mdate      <span class="keyword">as</span> t5_mdate,</span><br><span class="line">                           all_fre    <span class="keyword">as</span> t5_fre,</span><br><span class="line">                           ua_info    <span class="keyword">as</span> t5_ua,</span><br><span class="line">                           device_num <span class="keyword">as</span> t5_device_num</span><br><span class="line">                    <span class="keyword">from</span> xx.temp_mba_phone_user</span><br><span class="line">                    <span class="keyword">where</span> <span class="keyword">month</span> = <span class="string">'2018-12-01'</span></span><br><span class="line">                      <span class="keyword">and</span> all_fre &gt;= <span class="number">5</span></span><br><span class="line">                      <span class="keyword">and</span> device_num &lt;= <span class="number">4</span>) <span class="keyword">as</span> t5 <span class="keyword">on</span> t4.t4_puid = t5.t5_puid;</span><br></pre></td></tr></table></figure>
@@ -101,7 +103,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/05/15/process-data-with-hive/" data-id="cjwwvmg130009xlk6zu31xo4i" class="article-share-link">Share</a>
+      <a data-url="http://ronniewang.github.io/2019/04/15/process-data-with-hive/" data-id="cjwwvrjj0000979k6e6vj0kwa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ronnieblog/tags/Hive/">Hive</a></li></ul>
@@ -112,19 +114,19 @@
     
 <nav id="article-nav">
   
-    <a href="/ronnieblog/2019/05/16/http-connection-pool-for-rest-temlate/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/ronnieblog/2019/05/12/redis-best-practices/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          为 RestTemplate 配置连接池
+          Redis 的一些最佳实践
         
       </div>
     </a>
   
   
-    <a href="/ronnieblog/2019/05/12/redis-best-practices/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/ronnieblog/2019/04/12/why-must-i-come-to-the-company/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Redis 的一些最佳实践</div>
+      <div class="article-nav-title">为什么一定要来公司工作呢？</div>
     </a>
   
 </nav>
@@ -186,11 +188,11 @@
           </li>
         
           <li>
-            <a href="/ronnieblog/2019/05/15/process-data-with-hive/">记一次 HIVE 处理数据的过程</a>
+            <a href="/ronnieblog/2019/05/12/redis-best-practices/">Redis 的一些最佳实践</a>
           </li>
         
           <li>
-            <a href="/ronnieblog/2019/05/12/redis-best-practices/">Redis 的一些最佳实践</a>
+            <a href="/ronnieblog/2019/04/15/process-data-with-hive/">记一次 HIVE 处理数据的过程</a>
           </li>
         
           <li>
