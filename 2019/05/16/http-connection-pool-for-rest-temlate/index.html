@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="RW">
 <meta property="og:description" content="Google 搜索 RestTemplate pool，出现一个 stackoverflow 的问题， https://stackoverflow.com/questions/44188847/springs-resttemplate-default-connection-pool，点进去看一下，第一个答案是这么写的 12345I believe RestTemplate doesn’t use">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-16T06:24:16.975Z">
+<meta property="og:updated_time" content="2019-06-15T02:02:55.940Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为 RestTemplate 配置连接池">
 <meta name="twitter:description" content="Google 搜索 RestTemplate pool，出现一个 stackoverflow 的问题， https://stackoverflow.com/questions/44188847/springs-resttemplate-default-connection-pool，点进去看一下，第一个答案是这么写的 12345I believe RestTemplate doesn’t use">
@@ -90,6 +90,7 @@
         <p>Google 搜索 RestTemplate pool，出现一个 stackoverflow 的问题， <a href="https://stackoverflow.com/questions/44188847/springs-resttemplate-default-connection-pool" target="_blank" rel="noopener">https://stackoverflow.com/questions/44188847/springs-resttemplate-default-connection-pool</a>，点进去看一下，第一个答案是这么写的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">I believe RestTemplate doesn’t use a connection pool to send requests, it uses a SimpleClientHttpRequestFactory that wraps a standard JDK’s HttpURLConnection opening and closing the connection.</span><br><span class="line"></span><br><span class="line">Indeed you can configure RestTemplate to use a pooled implementation such as HttpComponentsClientHttpRequestFactory but most-likely you might also need to configure some settings to prevent requests from timing out.</span><br><span class="line"></span><br><span class="line">I have blogged about this issue at Troubleshooting Spring&apos;s RestTemplate Requests Timeout</span><br></pre></td></tr></table></figure>
 <p>上面说到 RestTemplate 默认是使用 SimpleClientHttpRequestFactory 进行访问，只是对 HttpURLConnection 进行了封装，每次发请求都要建立连接，如果使用连接池需要用 HttpComponentsClientHttpRequestFactory 构造 RestTemplate 对象，但是需要一些其他的配置</p>
+<a id="more"></a>
 <p>下面的链接描述了如何配置连接池，并做了测试，这个连接就上上面答案的作者提到的他自己的那篇文章</p>
 <p><a href="https://tech.asimio.net/2016/12/27/Troubleshooting-Spring-RestTemplate-Requests-Timeout.html" target="_blank" rel="noopener">https://tech.asimio.net/2016/12/27/Troubleshooting-Spring-RestTemplate-Requests-Timeout.html</a></p>
 <p>我在这里描述一下关键内容</p>
@@ -105,7 +106,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://ronniewang.github.io/2019/05/16/http-connection-pool-for-rest-temlate/" data-id="cjwwv6b9d00012rk6f5ur8cqy" class="article-share-link">Share</a>
+      <a data-url="http://ronniewang.github.io/2019/05/16/http-connection-pool-for-rest-temlate/" data-id="cjwwvmfy70000xlk6u005z8m0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ronnieblog/tags/RestTemplate/">RestTemplate</a></li></ul>
